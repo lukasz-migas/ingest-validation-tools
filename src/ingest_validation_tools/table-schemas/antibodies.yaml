@@ -16,7 +16,8 @@ fields:
     description: 'The uniprot_accession_number is a unique identifier for proteins in the UniProt database (https://www.uniprot.org).'
   -
     name: lot_number
-    description: 'The lot# is specific to the vendor. (eg: Abcam lot# GR3238979-1)'
+    description: 'The lot# is specific to the vendor. (eg: Abcam lot# GR3238979-1). In the case of custom antibodies, indicate the batch date in the lot_number field.
+'
   -
     name: dilution
     description: Antibody solutions may be diluted according to the experimental protocol.
