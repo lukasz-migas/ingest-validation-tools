@@ -1,7 +1,7 @@
 fields:
   -
     name: channel_id
-    description: Structure of channel_id depends on assay type.
+    description: Structure of channel_id depends on assay type. The format is assay-specific: CODEX and cellDIVE- cycle#_CH#, Lightsheet- the name of the fluorophore tag, MIBI and IMC- the name of the metal tag.
   -
     name: antibody_name
     description: Anti-(target name) antibody. Not validated or used down-stream.
