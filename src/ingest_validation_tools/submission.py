@@ -3,7 +3,6 @@ from collections import defaultdict
 from fnmatch import fnmatch
 from pathlib import Path
 from collections import Counter
-from dataclasses import dataclass
 
 from ingest_validation_tools.yaml_include_loader import load_yaml
 
@@ -14,6 +13,8 @@ from ingest_validation_tools.validation_utils import (
     dict_reader_wrapper,
     get_context_of_decode_error
 )
+
+from ingest_validation_tools.schema_loader import TypeVersion
 
 from ingest_validation_tools.plugin_validator import (
     run_plugin_validators_iter,
@@ -38,12 +39,6 @@ TSV_SUFFIX = 'metadata.tsv'
 
 class PreflightError(Exception):
     pass
-
-
-@dataclass
-class _TypeVersion:
-    assay_type: str
-    version: int
 
 
 class Submission:
@@ -95,7 +90,7 @@ class Submission:
             raise PreflightError(message)
         name = rows[0]['assay_type']
         version = rows[0]['version'] if 'version' in rows[0] else 0
-        return _TypeVersion(_assay_name_to_code(name), version)
+        return TypeVersion(_assay_name_to_code(name), version)
 
     def get_errors(self):
         # This creates a deeply nested dict.

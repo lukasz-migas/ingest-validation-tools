@@ -7,7 +7,7 @@ import sys
 from tableschema_to_template.create_xlsx import create_xlsx
 
 from ingest_validation_tools.schema_loader import (
-    list_types, get_table_schema, get_other_schema, get_directory_schema)
+    get_latest_type_versions, get_table_schema, get_other_schema, get_directory_schema)
 from ingest_validation_tools.docs_utils import (
     get_tsv_name, get_xlsx_name,
     generate_template_tsv, generate_readme_md)
@@ -25,9 +25,15 @@ def main():
         help='Directory to write output to')
     args = parser.parse_args()
 
-    is_assay = args.type in list_types()
+    latest_type_versions = get_latest_type_versions()
+    this_type_version = None
+    for type_version in latest_type_versions:
+        if args.type == type_version.assay_type:
+            this_type_version = type_version
+
+    is_assay = bool(this_type_version)
     if is_assay:
-        table_schema = get_table_schema(args.type)
+        table_schema = get_table_schema(args.type, this_type_version.version)
         directory_schema = get_directory_schema(args.type)
     else:
         table_schema = get_other_schema(args.type)

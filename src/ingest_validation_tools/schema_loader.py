@@ -1,4 +1,5 @@
 from pathlib import Path
+from dataclasses import dataclass
 
 from ingest_validation_tools.yaml_include_loader import load_yaml
 
@@ -7,12 +8,24 @@ _table_schemas_path = Path(__file__).parent / 'table-schemas'
 _directory_schemas_path = Path(__file__).parent / 'directory-schemas'
 
 
-def list_types():
-    schemas = {
-        p.stem.split('-')[0] for p in
-        (_table_schemas_path / 'assays').iterdir()
-    }
-    return sorted(schemas)
+@dataclass
+class TypeVersion:
+    assay_type: str
+    version: int
+
+
+def get_latest_type_versions():
+    stems = [p.stem for p in (_table_schemas_path / 'assays').iterdir()]
+    latest = {}
+    for stem in stems:
+        assay_type, version = stem.split('-')
+        version = int(version)
+        if assay_type not in latest:
+            latest[assay_type] = 0
+        if version > latest[assay_type]:
+            latest[assay_type] = version
+    type_versions = [TypeVersion(assay_type, version) for assay_type, version in latest.items()]
+    return type_versions
 
 
 def get_other_schema(other_type, offline=None):
