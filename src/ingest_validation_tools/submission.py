@@ -3,6 +3,7 @@ from collections import defaultdict
 from fnmatch import fnmatch
 from pathlib import Path
 from collections import Counter
+from dataclasses import dataclass
 
 from ingest_validation_tools.yaml_include_loader import load_yaml
 
@@ -37,6 +38,12 @@ TSV_SUFFIX = 'metadata.tsv'
 
 class PreflightError(Exception):
     pass
+
+
+@dataclass
+class _TypeVersion:
+    assay_type: str
+    version: int
 
 
 class Submission:
@@ -88,7 +95,7 @@ class Submission:
             raise PreflightError(message)
         name = rows[0]['assay_type']
         version = rows[0]['version'] if 'version' in rows[0] else 0
-        return (_assay_name_to_code(name), version)
+        return _TypeVersion(_assay_name_to_code(name), version)
 
     def get_errors(self):
         # This creates a deeply nested dict.
@@ -136,7 +143,7 @@ class Submission:
         if not self.effective_tsv_paths:
             return {'Missing': 'There are no effective TSVs.'}
 
-        types_counter = Counter(v[0] for v in self.effective_tsv_paths.values())
+        types_counter = Counter(v.assay_type for v in self.effective_tsv_paths.values())
         repeated = [
             assay_type
             for assay_type, count in types_counter.items()
@@ -146,7 +153,8 @@ class Submission:
             return f'There is more than one TSV for this type: {", ".join(repeated)}'
 
         errors = {}
-        for path, (assay_type, assay_version) in self.effective_tsv_paths.items():
+        for path, type_version in self.effective_tsv_paths.items():
+            assay_type = type_version.assay_type
             single_tsv_internal_errors = \
                 self._get_single_tsv_internal_errors(assay_type, path)
             single_tsv_external_errors = \
