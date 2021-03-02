@@ -78,7 +78,7 @@ def get_internal_errors(path, type_name, encoding=None, offline=None):
     return get_tsv_errors(path, type_name, offline=offline)
 
 
-def get_tsv_errors(tsv_path, type, optional_fields=[], offline=None):
+def get_tsv_errors(tsv_path, type, version=None, optional_fields=[], offline=None):
     '''
     Validate the TSV.
     '''
@@ -87,7 +87,8 @@ def get_tsv_errors(tsv_path, type, optional_fields=[], offline=None):
         if type in ['contributors', 'antibodies', 'sample']:
             schema = get_other_schema(type, offline=offline)
         else:
-            schema = get_table_schema(type, optional_fields=optional_fields, offline=offline)
+            schema = get_table_schema(type, version=version,
+                                      optional_fields=optional_fields, offline=offline)
     except OSError as e:
         return {e.strerror: Path(e.filename).name}
     return get_table_errors(tsv_path, schema)

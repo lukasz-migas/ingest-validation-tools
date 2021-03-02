@@ -29,7 +29,7 @@ def _assay_name_to_code(name):
         schema = load_yaml(path)
         for field in schema['fields']:
             if field['name'] == 'assay_type' and name in field['constraints']['enum']:
-                return path.stem
+                return path.stem.split('-')[0]
     raise PreflightError(f"Can't find schema where '{name}' is in the enum for assay_type")
 
 
@@ -155,8 +155,9 @@ class Submission:
         errors = {}
         for path, type_version in self.effective_tsv_paths.items():
             assay_type = type_version.assay_type
+            version = type_version.version
             single_tsv_internal_errors = \
-                self._get_single_tsv_internal_errors(assay_type, path)
+                self._get_single_tsv_internal_errors(assay_type, version, path)
             single_tsv_external_errors = \
                 self._get_single_tsv_external_errors(assay_type, path)
             single_tsv_errors = {}
@@ -168,9 +169,9 @@ class Submission:
                 errors[f'{path} (as {assay_type})'] = single_tsv_errors
         return errors
 
-    def _get_single_tsv_internal_errors(self, assay_type, path):
+    def _get_single_tsv_internal_errors(self, assay_type, version, path):
         return get_tsv_errors(
-            type=assay_type, tsv_path=path,
+            type=assay_type, version=version, tsv_path=path,
             optional_fields=self.optional_fields,
             offline=self.offline)
 
