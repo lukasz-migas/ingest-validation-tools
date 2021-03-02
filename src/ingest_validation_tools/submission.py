@@ -55,7 +55,7 @@ class Submission:
         self.errors = {}
         try:
             unsorted_effective_tsv_paths = {
-                str(path): self._get_type_from_first_line(path)
+                str(path): self._get_type_version_from_first_line(path)
                 for path in (
                     tsv_paths if tsv_paths
                     else directory_path.glob(f'*{TSV_SUFFIX}')
@@ -68,7 +68,7 @@ class Submission:
         except PreflightError as e:
             self.errors['Preflight'] = str(e)
 
-    def _get_type_from_first_line(self, path):
+    def _get_type_version_from_first_line(self, path):
         try:
             rows = dict_reader_wrapper(path, self.encoding)
         except UnicodeDecodeError:
@@ -87,7 +87,8 @@ class Submission:
                 message += f'Column headers: {", ".join(rows[0].keys())}'
             raise PreflightError(message)
         name = rows[0]['assay_type']
-        return _assay_name_to_code(name)
+        version = rows[0]['version'] if 'version' in rows[0] else 0
+        return (_assay_name_to_code(name), version)
 
     def get_errors(self):
         # This creates a deeply nested dict.
@@ -135,7 +136,7 @@ class Submission:
         if not self.effective_tsv_paths:
             return {'Missing': 'There are no effective TSVs.'}
 
-        types_counter = Counter(self.effective_tsv_paths.values())
+        types_counter = Counter(v[0] for v in self.effective_tsv_paths.values())
         repeated = [
             assay_type
             for assay_type, count in types_counter.items()
@@ -145,7 +146,7 @@ class Submission:
             return f'There is more than one TSV for this type: {", ".join(repeated)}'
 
         errors = {}
-        for path, assay_type in self.effective_tsv_paths.items():
+        for path, (assay_type, assay_version) in self.effective_tsv_paths.items():
             single_tsv_internal_errors = \
                 self._get_single_tsv_internal_errors(assay_type, path)
             single_tsv_external_errors = \
