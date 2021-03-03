@@ -2,13 +2,13 @@
 import sys
 from yaml import dump as dump_yaml
 from ingest_validation_tools.schema_loader import (
-    get_latest_type_versions, get_table_schema, get_other_schema
+    get_latest_versions, get_table_schema, get_other_schema
 )
 
 
 def main():
     mapping = {}
-    for type_version in get_latest_type_versions():
+    for type_version in get_latest_versions():
         schema = get_table_schema(type_version.assay_type, type_version.version)
         _add_field_descriptions_to_mapping(schema['fields'], mapping)
 

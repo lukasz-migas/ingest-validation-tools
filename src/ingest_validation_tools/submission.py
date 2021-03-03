@@ -14,7 +14,7 @@ from ingest_validation_tools.validation_utils import (
     get_context_of_decode_error
 )
 
-from ingest_validation_tools.schema_loader import TypeVersion
+from ingest_validation_tools.schema_loader import SchemaVersion
 
 from ingest_validation_tools.plugin_validator import (
     run_plugin_validators_iter,
@@ -90,7 +90,7 @@ class Submission:
             raise PreflightError(message)
         name = rows[0]['assay_type']
         version = rows[0]['version'] if 'version' in rows[0] else 0
-        return TypeVersion(_assay_name_to_code(name), version)
+        return SchemaVersion(_assay_name_to_code(name), version)
 
     def get_errors(self):
         # This creates a deeply nested dict.

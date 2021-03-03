@@ -9,27 +9,28 @@ _directory_schemas_path = Path(__file__).parent / 'directory-schemas'
 
 
 @dataclass
-class TypeVersion:
-    assay_type: str
+class SchemaVersion:
+    schema_name: str
     version: int
 
 
-def get_latest_type_versions():
-    stems = [p.stem for p in (_table_schemas_path / 'assays').iterdir()]
+def get_latest_versions(dir):
+    stems = [p.stem for p in (_table_schemas_path / dir).iterdir()]
     latest = {}
     for stem in stems:
-        assay_type, version = stem.split('-')
+        schema_name, version = stem.split('-')
         version = int(version)
-        if assay_type not in latest:
-            latest[assay_type] = 0
-        if version > latest[assay_type]:
-            latest[assay_type] = version
-    type_versions = [TypeVersion(assay_type, version) for assay_type, version in latest.items()]
-    return type_versions
+        if schema_name not in latest:
+            latest[schema_name] = 0
+        if version > latest[schema_name]:
+            latest[schema_name] = version
+    schema_versions = [SchemaVersion(schema_name, version)
+                       for schema_name, version in latest.items()]
+    return schema_versions
 
 
 def get_other_schema(other_type, offline=None):
-    schema = load_yaml(Path(__file__).parent / 'table-schemas' / f'{other_type}.yaml')
+    schema = load_yaml(Path(__file__).parent / 'table-schemas' / 'other' / f'{other_type}.yaml')
     for field in schema['fields']:
         _add_constraints(field, optional_fields=[], offline=offline)
     return schema
