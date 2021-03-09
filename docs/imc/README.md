@@ -10,6 +10,8 @@ Related files:
 IMC submissions require metadata on the antibodies used in the assay to be provided in an Antibodies TSV. For IMC, the `channel_id` is the name of the metal tag on the corresponding antibody.
 The other fields function the same way for all assays using antibodies. For more information, see the [Antibodies TSV documentation](../antibodies).
 ## Table of contents
+[`version`](#version)<br>
+[`description`](#description)<br>
 <details><summary>Provenance</summary>
 
 [`donor_id`](#donor_id)<br>
@@ -90,6 +92,20 @@ The other fields function the same way for all assays using antibodies. For more
 | `processed/[^/]__histogram_sample.png` | ✓ | TODO |
 | `extras/.*` |  | Free-form descriptive information supplied by the TMC |
 | `extras/thumbnail\.(png\|jpg)` |  | Optional thumbnail image which may be shown in search interface |
+
+### `version`
+version.
+
+| constraint | value |
+| --- | --- |
+| required | `True` |
+
+### `description`
+description.
+
+| constraint | value |
+| --- | --- |
+| required | `True` |
 
 ## Provenance
 

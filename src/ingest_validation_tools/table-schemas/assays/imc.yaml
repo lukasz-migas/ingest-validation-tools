@@ -7,6 +7,12 @@ description_md:
   The other fields function the same way for all assays using antibodies.
   For more information, see the [Antibodies TSV documentation](../antibodies).
 fields:
+-
+  name: version
+  description: version
+-
+  name: description
+  description: description
 # include: ../includes/all_assays.yaml
 -
   name: assay_category
