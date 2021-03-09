@@ -58,6 +58,7 @@ The other fields function the same way for all assays using antibodies. For more
 [`signal_type`](#signal_type)<br>
 [`start_datetime`](#start_datetime)<br>
 [`data_precision_bytes`](#data_precision_bytes)<br>
+[`antibodies_path`](#antibodies_path)<br>
 [`contributors_path`](#contributors_path)<br>
 [`data_path`](#data_path)<br></details>
 
@@ -396,6 +397,13 @@ Numerical data precision in bytes.
 | constraint | value |
 | --- | --- |
 | type | `number` |
+| required | `True` |
+
+### `antibodies_path`
+Relative path to file with antibody information for this dataset.
+
+| constraint | value |
+| --- | --- |
 | required | `True` |
 
 ### `contributors_path`
