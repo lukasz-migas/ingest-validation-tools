@@ -65,7 +65,28 @@ The other fields function the same way for all assays using antibodies. For more
 
 | pattern | required? | description |
 | --- | --- | --- |
-| `TODO` | ✓ | Directory structure not yet specified. https://github.com/hubmapconsortium/ingest-validation-tools/issues/447 |
+| `\d+_HubMAP_Panel.csv` | ✓ | TODO |
+| `[^/]+.json` | ✓ | TODO |
+| `Mapping/[^/]+.json` | ✓ | TODO |
+| `Mapping/[^/]+.png` | ✓ | TODO |
+| `SingleCellData/[^/]+__masterfile.csv` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_AcquisitionChannel_meta.csv` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_AcquisitionROI_meta.csv` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_Acquisition_meta.csv` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_Panorama_meta.csv` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_ROIPoint_meta.csv` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_Slide_meta.csv` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_s\d+_p\d+_pano.png` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+.ome.tiff` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_after.png` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_before.png` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_slide.png` | ✓ | TODO |
+| `ometiff/[^/]+/[^/]+_schema.xml` | ✓ | TODO |
+| `ometiff/[^/]+/channelnames_report.csv` | ✓ | TODO |
+| `processed/[^/]__PhenoGraph_tsne_M.png` | ✓ | TODO |
+| `processed/[^/]__core_cluster_type_freq.pdf` | ✓ | TODO |
+| `processed/[^/]__heatmap.pdf` | ✓ | TODO |
+| `processed/[^/]__histogram_sample.png` | ✓ | TODO |
 | `extras/.*` |  | Free-form descriptive information supplied by the TMC |
 | `extras/thumbnail\.(png\|jpg)` |  | Optional thumbnail image which may be shown in search interface |
 
